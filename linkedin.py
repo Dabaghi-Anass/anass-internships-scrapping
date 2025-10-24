@@ -20,9 +20,6 @@ search_queries = [
     # Morocco - English / French / Arabic
     {"keywords": "data science internship", "location": "Morocco"},
     {"keywords": "data scientist internship", "location": "Morocco"},
-    {"keywords": "data analyst internship", "location": "Morocco"},
-    {"keywords": "data analytics internship", "location": "Morocco"},
-    {"keywords": "data engineering internship", "location": "Morocco"},
     {"keywords": "data engineer internship", "location": "Morocco"},
     {"keywords": "machine learning internship", "location": "Morocco"},
     {"keywords": "machine learning engineer internship", "location": "Morocco"},
@@ -35,8 +32,6 @@ search_queries = [
     # France - English / French
     {"keywords": "data science internship", "location": "France"},
     {"keywords": "data scientist internship", "location": "France"},
-    {"keywords": "data analyst internship", "location": "France"},
-    {"keywords": "data analytics internship", "location": "France"},
     {"keywords": "data engineering internship", "location": "France"},
     {"keywords": "data engineer internship", "location": "France"},
     {"keywords": "machine learning internship", "location": "France"},
@@ -49,37 +44,28 @@ search_queries = [
     {"keywords": "stage apprentissage automatique", "location": "France"},
     {"keywords": "stage PFE data", "location": "France"},
     {"keywords": "internship PFE data science", "location": "France"},
-
-    # Saudi Arabia - English / Arabic
-    {"keywords": "data science internship", "location": "Saudi Arabia"},
-    {"keywords": "data scientist internship", "location": "Saudi Arabia"},
-    {"keywords": "data analyst internship", "location": "Saudi Arabia"},
-    {"keywords": "data engineering internship", "location": "Saudi Arabia"},
-    {"keywords": "data engineer internship", "location": "Saudi Arabia"},
-    {"keywords": "machine learning internship", "location": "Saudi Arabia"},
-    {"keywords": "machine learning engineer internship", "location": "Saudi Arabia"},
-    {"keywords": "AI internship", "location": "Saudi Arabia"},
-    {"keywords": "artificial intelligence internship", "location": "Saudi Arabia"},
-    {"keywords": "internship PFE data science", "location": "Saudi Arabia"},
-    {"keywords": "تدريب علم البيانات", "location": "Saudi Arabia"},
-    {"keywords": "متدرب علم البيانات", "location": "Saudi Arabia"},
-    {"keywords": "تدريب هندسة البيانات", "location": "Saudi Arabia"},
-    {"keywords": "متدرب هندسة البيانات", "location": "Saudi Arabia"},
-    {"keywords": "تدريب تعلم الآلة", "location": "Saudi Arabia"},
-    {"keywords": "متدرب تعلم الآلة", "location": "Saudi Arabia"},
-    {"keywords": "تدريب ذكاء اصطناعي", "location": "Saudi Arabia"},
-    {"keywords": "متدرب ذكاء اصطناعي", "location": "Saudi Arabia"},
 ]
 
 max_pages = 5
 
 def scroll_page(driver, scroll_pause=1.5):
     """Scroll gradually to load dynamic content."""
-    last_height = driver.execute_script("return document.body.scrollHeight")
+    last_height=100
+    try:
+        last_height= driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        time.sleep(scroll_pause)
+    except Exception as e:
+        print(f"Error during initial scroll: {e}")
+    # last_height = driver.execute_script("return document.body.scrollHeight")
     for _ in range(5):
         driver.execute_script("window.scrollBy(0, 1000);")
         time.sleep(scroll_pause)
-        new_height = driver.execute_script("return document.body.scrollHeight")
+        new_height=100
+        try:
+            new_height = driver.execute_script("return document.body.scrollHeight")
+        except Exception as e:
+            print(f"Error getting new scroll height: {e}")
+            continue
         if new_height == last_height:
             break
         last_height = new_height
@@ -120,7 +106,6 @@ def scrape_page(keywords, location, page_num, driver):
             "company": company_tag.get_text(strip=True) if company_tag else "N/A",
             "location": loc_tag.get_text(strip=True) if loc_tag else "N/A",
             "link": link_tag["href"].split("?")[0] if link_tag else "N/A",
-            "posted_date": posted_tag.get_text(strip=True) if posted_tag else "N/A",
             "logo": logo_url if logo_url else "N/A",
             "search_keywords": keywords,
             "search_location": location
@@ -148,9 +133,7 @@ with ThreadPoolExecutor(max_workers=4) as executor:
 
 df = pd.DataFrame(all_results)
 
-df["posted_date"] = pd.to_datetime(df["posted_date"], errors="coerce")
 
-df.sort_values("posted_date", ascending=False, inplace=True)
 df.drop_duplicates(subset="title", keep="first", inplace=True)
 
 df.to_csv("public/linkedin_internships_all_pages.csv", index=False, encoding="utf-8")
