@@ -4,3 +4,4 @@ selenium
 pandas
 fastapi
 uvicorn
+schedule

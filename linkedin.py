@@ -17,20 +17,58 @@ def get_driver():
     return webdriver.Chrome(options=options)
 
 search_queries = [
+    # Morocco - English / French / Arabic
     {"keywords": "data science internship", "location": "Morocco"},
-    {"keywords": "data science internship", "location": "France"},
-    {"keywords": "stage science de données", "location": "Morocco"},
-    {"keywords": "stage science de données", "location": "France"},
-    {"keywords": "stage PFE science de données", "location": "France"},
-    {"keywords": "stage PFE science de données", "location": "Morocco"},
-    {"keywords": "machine learning internship", "location": "Morocco"},
-    {"keywords": "machine learning internship", "location": "France"},
-    {"keywords": "AI internship", "location": "Morocco"},
-    {"keywords": "AI internship", "location": "France"},
+    {"keywords": "data scientist internship", "location": "Morocco"},
+    {"keywords": "data analyst internship", "location": "Morocco"},
+    {"keywords": "data analytics internship", "location": "Morocco"},
     {"keywords": "data engineering internship", "location": "Morocco"},
+    {"keywords": "data engineer internship", "location": "Morocco"},
+    {"keywords": "machine learning internship", "location": "Morocco"},
+    {"keywords": "machine learning engineer internship", "location": "Morocco"},
+    {"keywords": "AI internship", "location": "Morocco"},
+    {"keywords": "artificial intelligence internship", "location": "Morocco"},
+    {"keywords": "internship PFE data science", "location": "Morocco"},
+    {"keywords": "stage science des données", "location": "Morocco"},
+    {"keywords": "stage data engineering", "location": "Morocco"},
+    {"keywords": "stage PFE data", "location": "Morocco"},
+    # France - English / French
+    {"keywords": "data science internship", "location": "France"},
+    {"keywords": "data scientist internship", "location": "France"},
+    {"keywords": "data analyst internship", "location": "France"},
+    {"keywords": "data analytics internship", "location": "France"},
     {"keywords": "data engineering internship", "location": "France"},
-    {"keywords": "data analyste internship", "location": "France"},
-    {"keywords": "data analyste internship", "location": "Morrocco"},
+    {"keywords": "data engineer internship", "location": "France"},
+    {"keywords": "machine learning internship", "location": "France"},
+    {"keywords": "machine learning engineer internship", "location": "France"},
+    {"keywords": "AI internship", "location": "France"},
+    {"keywords": "artificial intelligence internship", "location": "France"},
+    {"keywords": "stage science des données", "location": "France"},
+    {"keywords": "stage ingénieur data", "location": "France"},
+    {"keywords": "stage ingénieur IA", "location": "France"},
+    {"keywords": "stage apprentissage automatique", "location": "France"},
+    {"keywords": "stage PFE data", "location": "France"},
+    {"keywords": "internship PFE data science", "location": "France"},
+
+    # Saudi Arabia - English / Arabic
+    {"keywords": "data science internship", "location": "Saudi Arabia"},
+    {"keywords": "data scientist internship", "location": "Saudi Arabia"},
+    {"keywords": "data analyst internship", "location": "Saudi Arabia"},
+    {"keywords": "data engineering internship", "location": "Saudi Arabia"},
+    {"keywords": "data engineer internship", "location": "Saudi Arabia"},
+    {"keywords": "machine learning internship", "location": "Saudi Arabia"},
+    {"keywords": "machine learning engineer internship", "location": "Saudi Arabia"},
+    {"keywords": "AI internship", "location": "Saudi Arabia"},
+    {"keywords": "artificial intelligence internship", "location": "Saudi Arabia"},
+    {"keywords": "internship PFE data science", "location": "Saudi Arabia"},
+    {"keywords": "تدريب علم البيانات", "location": "Saudi Arabia"},
+    {"keywords": "متدرب علم البيانات", "location": "Saudi Arabia"},
+    {"keywords": "تدريب هندسة البيانات", "location": "Saudi Arabia"},
+    {"keywords": "متدرب هندسة البيانات", "location": "Saudi Arabia"},
+    {"keywords": "تدريب تعلم الآلة", "location": "Saudi Arabia"},
+    {"keywords": "متدرب تعلم الآلة", "location": "Saudi Arabia"},
+    {"keywords": "تدريب ذكاء اصطناعي", "location": "Saudi Arabia"},
+    {"keywords": "متدرب ذكاء اصطناعي", "location": "Saudi Arabia"},
 ]
 
 max_pages = 5
@@ -115,6 +153,6 @@ df["posted_date"] = pd.to_datetime(df["posted_date"], errors="coerce")
 df.sort_values("posted_date", ascending=False, inplace=True)
 df.drop_duplicates(subset="title", keep="first", inplace=True)
 
-df.to_csv("linkedin_internships_all_pages.csv", index=False, encoding="utf-8")
-print("\nAll queries scraped, duplicates removed, saved to linkedin_internships_pages.csv")
+df.to_csv("public/linkedin_internships_all_pages.csv", index=False, encoding="utf-8")
+print("\nAll queries scraped, duplicates removed, saved to public/linkedin_internships_all_pages.csv")
 print(df.head())

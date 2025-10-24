@@ -10,9 +10,8 @@ PUBLIC_DIR = BASE_DIR / "public"
 CSV_FILE = BASE_DIR / "linkedin_internships_all_pages.csv"
 HTML_FILE = BASE_DIR / "index.html"
 
-@app.get("/csv")
+@app.get("/linkedin_internships_all_pages.csv")
 def get_csv():
-  # prefer CSV inside public if present
   public_csv = PUBLIC_DIR / "linkedin_internships_all_pages.csv"
   target = public_csv if public_csv.exists() else CSV_FILE
   if target.exists():
